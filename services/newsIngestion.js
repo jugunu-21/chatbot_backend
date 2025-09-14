@@ -13,18 +13,28 @@ const parser = new Parser({
 // News sources configuration
 const NEWS_SOURCES = [
   {
-    name: 'Reuters',
-    url: 'https://feeds.reuters.com/reuters/topNews',
-    type: 'rss'
-  },
-  {
-    name: 'Reuters Technology',
-    url: 'https://feeds.reuters.com/reuters/technologyNews',
-    type: 'rss'
-  },
-  {
     name: 'BBC News',
     url: 'http://feeds.bbci.co.uk/news/rss.xml',
+    type: 'rss'
+  },
+  {
+    name: 'BBC Technology',
+    url: 'http://feeds.bbci.co.uk/news/technology/rss.xml',
+    type: 'rss'
+  },
+  {
+    name: 'BBC Business',
+    url: 'http://feeds.bbci.co.uk/news/business/rss.xml',
+    type: 'rss'
+  },
+  {
+    name: 'TechCrunch',
+    url: 'https://techcrunch.com/feed/',
+    type: 'rss'
+  },
+  {
+    name: 'Ars Technica',
+    url: 'https://feeds.arstechnica.com/arstechnica/index/',
     type: 'rss'
   }
 ];
@@ -53,17 +63,16 @@ function extractContent(item) {
   let content = item['content:encoded'] || 
                 item.description || 
                 item.content || 
-                item.summary || 
                 '';
 
-  // Clean HTML tags if present
+  // Clean up HTML if present
   if (content.includes('<')) {
     const $ = cheerio.load(content);
     content = $.text();
   }
 
-  // Truncate if too long
-  return content.substring(0, 2000);
+  // Limit content length to avoid token limits
+  return content.substring(0, 1000);
 }
 
 async function ingestNewsArticles() {
@@ -136,4 +145,3 @@ module.exports = {
   ingestNewsArticles,
   fetchRSSFeed
 };
-

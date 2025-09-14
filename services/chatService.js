@@ -22,7 +22,17 @@ async function processUserMessage(sessionId, message) {
     const relevantArticles = await searchSimilarArticles(queryEmbedding, 5);
 
     if (relevantArticles.length === 0) {
-      const noResultsMessage = "I don't have information about that topic in my current news database. Please try asking about recent news in technology, business, politics, or other current events.";
+      const noResultsMessage = `I don't have specific information about "${message}" in my current news database. 
+
+My database currently contains 27 articles from BBC News, but none are closely related to your query. 
+
+To get better results, try asking about:
+• Recent political developments
+• International news and conflicts  
+• UK and global current events
+• Breaking news stories
+
+You can also try rephrasing your question or asking about broader topics that might be covered in general news.`;
       
       await saveMessageToSession(sessionId, {
         text: noResultsMessage,
