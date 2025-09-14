@@ -4,6 +4,9 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 require('dotenv').config();
 
+// Import routes
+const chatRoutes = require('./routes/chat');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -32,17 +35,7 @@ app.get('/health', (req, res) => {
 });
 
 // API routes
-app.use('/api', (req, res) => {
-  res.json({
-    message: 'API endpoints will be available here',
-    availableEndpoints: [
-      'GET /',
-      'GET /health',
-      'POST /api/chat (coming soon)',
-      'POST /api/upload (coming soon)'
-    ]
-  });
-});
+app.use('/api', chatRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -69,4 +62,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-
