@@ -60,7 +60,7 @@ async function storeArticle(article) {
 }
 
 // Search for similar articles
-async function searchSimilarArticles(queryEmbedding, limit = 5, threshold = 0.6) {
+async function searchSimilarArticles(queryEmbedding, limit = 5, threshold = 0.75) {
   try {
     if (vectorStore.length === 0) {
       console.log('Vector store is empty, loading from Redis...');
